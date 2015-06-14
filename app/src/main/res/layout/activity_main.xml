@@ -6,6 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     android:orientation="vertical"
     android:layout_centerVertical="true"
+    android:gravity="center"
     android:background="@drawable/back"
     >
 
@@ -13,22 +14,35 @@
     <EditText
         android:layout_marginTop="@dimen/abc_text_size_medium_material"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHighlight="#fff"
-        android:id="@+id/username"/>
+        android:layout_height="40dp"
+        android:textColor="#000000"
+        android:textColorHighlight="#000000"
+        android:background="@drawable/edittext"
+        android:id="@+id/username"
+        android:singleLine="true"
+        android:gravity="center"
+        android:hint="Username"/>
+
 
     <EditText
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="#000000"
         android:inputType="textPassword"
-        android:id="@+id/password"/>
+        android:background="@drawable/edittext"
+        android:id="@+id/password"
+        android:gravity="center"
+        android:hint="Password"/>
+
     <Button
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:textColor="#fff"
         android:text="@string/login"
         android:hint="@string/click_to_login"
         android:id="@+id/login"
-        android:background="#009688"/>
+        android:background="@drawable/button"
+        />
 </LinearLayout>

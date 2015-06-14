@@ -2,8 +2,10 @@ package com.hackohub.notesquirrel;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +14,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setContent();
+    }
+
+    public void setContent(){
+//        EditText t = (EditText)findViewById(R.id.username);
+//        t.setGravity(Gravity.CENTER);
+
+//        EditText t1 = (EditText)findViewById(R.id.password);
+//        t1.setGravity(Gravity.CENTER);
     }
 
     @Override
