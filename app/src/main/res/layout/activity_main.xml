@@ -13,6 +13,7 @@
 
     <EditText
         android:layout_marginTop="@dimen/abc_text_size_medium_material"
+        android:maxLength="20"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:textColor="#000000"
@@ -21,7 +22,7 @@
         android:id="@+id/username"
         android:singleLine="true"
         android:gravity="center"
-        android:hint="Username"/>
+        android:hint="@string/username"/>
 
 
     <EditText
@@ -33,7 +34,7 @@
         android:background="@drawable/edittext"
         android:id="@+id/password"
         android:gravity="center"
-        android:hint="Password"/>
+        android:hint="@string/password"/>
 
     <Button
         android:layout_marginTop="10dp"
