@@ -1,6 +1,7 @@
 package com.hackohub.notesquirrel;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -25,16 +27,17 @@ public class MainActivity extends ActionBarActivity {
 
     public static final String DEBUGTAG = "VC";
     public static final String TEXTFILE = "NoteSquirrel.txt";
+    public static final String FILEPREF = "Username Saved";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loginButtonListner();
+        setLoginButtonListner();
         setContent();
     }
 
-    public void loginButtonListner(){
+    public void setLoginButtonListner(){
         Button saveBtn = (Button)findViewById(R.id.login);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,15 +45,28 @@ public class MainActivity extends ActionBarActivity {
 
                 EditText editText = (EditText)findViewById(R.id.username);
                 String text = editText.getText().toString();
+                EditText editText1 = (EditText)findViewById(R.id.password);
+                String text1 = editText1.getText().toString();
 
-                try {
-                    FileOutputStream fos = openFileOutput(TEXTFILE, Context.MODE_PRIVATE);
-                    fos.write(text.getBytes());
-                    fos.close();
-                } catch (Exception e) {
-                    Log.d(DEBUGTAG, "Unable to save file" + e);
+                if (text.isEmpty() == true || text1.isEmpty() == true){
+                    Toast.makeText(MainActivity.this, R.string.empty_login, Toast.LENGTH_LONG).show();
+                    Log.d(DEBUGTAG, "Blank login credentials");
                 }
-                Log.d(DEBUGTAG, "Login Button Clicked" + text);
+                else {
+                    try {
+                        FileOutputStream fos = openFileOutput(TEXTFILE, Context.MODE_PRIVATE);
+                        fos.write(text.getBytes()); // Commented out to check below preferences functionality
+                        fos.close();
+                        Log.d(DEBUGTAG, "Login Button Clicked" + text);
+
+//                    SharedPreferences prefs = getPreferences(MODE_PRIVATE);    Either use FileInputStream internal storage(Above code) or Preferences(this code)
+//                    SharedPreferences.Editor editor = prefs.edit();
+//                    editor.putString(FILEPREF, text);
+//                    editor.commit();
+                    } catch (Exception e) {
+                        Log.d(DEBUGTAG, "Unable to save file" + e);
+                    }
+                }
             }
         });
     }
@@ -65,9 +81,11 @@ public class MainActivity extends ActionBarActivity {
             EditText editText = (EditText)findViewById(R.id.username);
 
             while ((line = reader.readLine())!=null){
-                editText.append(line);
+                editText.append(line); // Commented out to check below preferences functionality
             }
             fis.close();
+//            SharedPreferences prefs = getPreferences(MODE_PRIVATE);    Either use FileInputStream internal storage(Above code) or Preferences(this code)
+//            editText.append(prefs.getString(FILEPREF, "Username"));
         } catch (Exception e) {
             Log.d(DEBUGTAG, "Unable to read file" + e);
         }
