@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/image"
+        android:scaleType="fitXY"
         android:contentDescription="@string/password_image"/>
 
 </LinearLayout>

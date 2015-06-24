@@ -9,6 +9,6 @@
     <string name="password">Password</string>
     <string name="empty_login">Username or Password empty</string>
     <string name="title_activity_main_activity2">MainActivity2</string>
-    <string name="title_activity_image">ImageActivity</string>
+    <string name="title_activity_image">Note Squirrel</string>
     <string name="password_image">Password Image</string>
 </resources>

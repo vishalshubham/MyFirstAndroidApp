@@ -1,17 +1,53 @@
 package com.hackohub.notesquirrel;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.List;
 
 
-public class ImageActivity extends ActionBarActivity {
+public class ImageActivity extends ActionBarActivity implements PointCollectorListner{
+
+    private PointCollector pointCollector = new PointCollector();
+    private Database db = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+
+        addImageTouchListener();
+        showPrompt();
+        pointCollector.setListner(this);
+    }
+
+    public void showPrompt(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setTitle("Create your Passpoint Sequence");
+        builder.setMessage("Touch any 4 points and remember them for future login");
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void addImageTouchListener(){
+        ImageView image = (ImageView)findViewById(R.id.touch_image);
+        image.setOnTouchListener(pointCollector);
     }
 
     @Override
@@ -34,5 +70,11 @@ public class ImageActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void pointsCollected(List<Point> points) {
+            Log.d(MainActivity.DEBUGTAG, "Collected point: " + points.size());
+            db.storePoints(points);
     }
 }
