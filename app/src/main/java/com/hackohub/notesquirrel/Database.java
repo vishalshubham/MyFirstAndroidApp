@@ -2,10 +2,12 @@ package com.hackohub.notesquirrel;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,5 +50,25 @@ public class Database extends SQLiteOpenHelper {
             db.insert(POINT_TABLE, null, values);
         }
         db.close();
+    }
+
+    public List<Point> getPoints(){
+        List<Point> points = new ArrayList<Point>();
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = String.format("select * from %s order by %s", POINT_TABLE, COL_ID);
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        while(cursor.moveToNext()){
+            int x = cursor.getInt(0);
+            int y = cursor.getInt(1);
+
+            points.add(new Point(x, y));
+        }
+
+        db.close();
+        return points;
     }
 }

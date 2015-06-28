@@ -3,6 +3,7 @@ package com.hackohub.notesquirrel;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,8 +74,36 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
     }
 
     @Override
-    public void pointsCollected(List<Point> points) {
+    public void pointsCollected(final List<Point> points) {
             Log.d(MainActivity.DEBUGTAG, "Collected point: " + points.size());
             db.storePoints(points);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.storing_data);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                db.storePoints(points);
+                Log.d(MainActivity.DEBUGTAG, "Point Saved");
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                dialog.dismiss();
+            }
+
+        };
+
+        task.execute();
+
     }
 }

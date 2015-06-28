@@ -11,4 +11,5 @@
     <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="title_activity_image">Note Squirrel</string>
     <string name="password_image">Password Image</string>
+    <string name="storing_data">Storing Data ...</string>
 </resources>

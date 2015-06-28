@@ -36,6 +36,7 @@ public class PointCollector implements View.OnTouchListener{
 
             if (listner!=null){
                 listner.pointsCollected(points);
+                points.clear();
             }
         }
 
