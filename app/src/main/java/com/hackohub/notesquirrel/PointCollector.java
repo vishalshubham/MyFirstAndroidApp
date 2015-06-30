@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class PointCollector implements View.OnTouchListener{
 
+    public static final int NUM_POINTS = 4;
     private PointCollectorListner listner;
     private List<Point> points = new ArrayList<Point>();
 
@@ -31,16 +32,20 @@ public class PointCollector implements View.OnTouchListener{
         //Toast.makeText(ImageActivity.this, message, Toast.LENGTH_LONG).show();
 
         points.add(new Point(x, y));
+        Log.d(MainActivity.DEBUGTAG, "Point added" + points.size());
 
-        if(points.size()==4){
+        if(points.size()==NUM_POINTS){
 
             if (listner!=null){
+                Log.d(MainActivity.DEBUGTAG, "4 Points collected");
                 listner.pointsCollected(points);
-                points.clear();
+                //points.clear();
             }
         }
-
-
         return false;
+    }
+
+    public void clear(){
+        points.clear();
     }
 }

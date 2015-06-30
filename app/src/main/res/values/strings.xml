@@ -12,4 +12,5 @@
     <string name="title_activity_image">Note Squirrel</string>
     <string name="password_image">Password Image</string>
     <string name="storing_data">Storing Data ...</string>
+    <string name="checking_passpoints">Checking Passpoints ...</string>
 </resources>

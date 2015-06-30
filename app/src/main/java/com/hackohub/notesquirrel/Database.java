@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Point;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,8 @@ public class Database extends SQLiteOpenHelper {
         for(Point point: points){
             ContentValues values = new ContentValues();
 
+            Log.d(MainActivity.DEBUGTAG, "Point: " + point.x + " - " + point.y);
+
             values.put(COL_ID, ++i);
             values.put(COL_X, point.x);
             values.put(COL_Y, point.y);
@@ -62,8 +65,8 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
 
         while(cursor.moveToNext()){
-            int x = cursor.getInt(0);
-            int y = cursor.getInt(1);
+            int x = cursor.getInt(1);
+            int y = cursor.getInt(2);
 
             points.add(new Point(x, y));
         }
