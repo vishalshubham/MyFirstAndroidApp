@@ -13,4 +13,12 @@
     <string name="password_image">Password Image</string>
     <string name="storing_data">Storing Data ...</string>
     <string name="checking_passpoints">Checking Passpoints ...</string>
+    <string name="title_activity_note">NoteActivity</string>
+    <string name="text_hint">Enter your Note here</string>
+    <string name="save_note">Save</string>
+    <string name="lock">Lock</string>
+    <string name="menu_passpoints_reset">Reset Passpoints</string>
+    <string name="note_saved">Note successfully saved</string>
+    <string name="menu_loginimage_reset">Reset Login Image</string>
+    <string name="unable_to_save">Unable to save photo file</string>
 </resources>

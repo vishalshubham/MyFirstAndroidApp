@@ -28,16 +28,16 @@ public class PointCollector implements View.OnTouchListener{
         int y = Math.round(event.getY());
 
         String message = String.format("Coordinates: (%d, %d)", x, y);
-        Log.d(MainActivity.DEBUGTAG, message);
+        Log.d(NoteActivity.DEBUGTAG, message);
         //Toast.makeText(ImageActivity.this, message, Toast.LENGTH_LONG).show();
 
         points.add(new Point(x, y));
-        Log.d(MainActivity.DEBUGTAG, "Point added" + points.size());
+        Log.d(NoteActivity.DEBUGTAG, "Point added" + points.size());
 
         if(points.size()==NUM_POINTS){
 
             if (listner!=null){
-                Log.d(MainActivity.DEBUGTAG, "4 Points collected");
+                Log.d(NoteActivity.DEBUGTAG, "4 Points collected");
                 listner.pointsCollected(points);
                 //points.clear();
             }

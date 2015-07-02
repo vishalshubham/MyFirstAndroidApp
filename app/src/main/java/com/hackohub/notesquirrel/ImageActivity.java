@@ -35,6 +35,17 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
 
         addImageTouchListener();
 
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            Boolean resetPasspoints = extras.getBoolean(NoteActivity.RESET_PASSPOINTS);
+            if(resetPasspoints){
+                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(PASSWORD_SET, false);
+                editor.commit();
+            }
+        }
+
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         Boolean passpointsSet = prefs.getBoolean(PASSWORD_SET, false);
 
@@ -101,9 +112,9 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.d(MainActivity.DEBUGTAG, "Point Saved : " + savedPoints.size());
+                Log.d(NoteActivity.DEBUGTAG, "Point Saved : " + savedPoints.size());
                 db.storePoints(savedPoints);
-                Log.d(MainActivity.DEBUGTAG, "Point Saved : " + savedPoints.size());
+                Log.d(NoteActivity.DEBUGTAG, "Point Saved : " + savedPoints.size());
                 return null;
             }
 
@@ -137,7 +148,7 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
                 pointCollector.clear();
 
                 if(pass){
-                    Intent i = new Intent(ImageActivity.this, MainActivity.class);
+                    Intent i = new Intent(ImageActivity.this, NoteActivity.class);
                     startActivity(i);
                 }
                 else{
@@ -149,7 +160,7 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
             protected Boolean doInBackground(Void... params) {
 
                 List<Point> savedPoints = db.getPoints();
-                Log.d(MainActivity.DEBUGTAG, "Loaded points: " + savedPoints.size());
+                Log.d(NoteActivity.DEBUGTAG, "Loaded points: " + savedPoints.size());
 
                 if(savedPoints.size()!=PointCollector.NUM_POINTS || touchedPoints.size()!=PointCollector.NUM_POINTS){
                     return false;
@@ -164,7 +175,7 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
 
                     int distSquared = xDiff*xDiff + yDiff*yDiff;
 
-                    Log.d(MainActivity.DEBUGTAG, "Distance Squared : " + distSquared);
+                    Log.d(NoteActivity.DEBUGTAG, "Distance Squared : " + distSquared);
 
                     if(distSquared>POINT_CLOSENESS*POINT_CLOSENESS){
                         return false;
@@ -183,11 +194,11 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
         Boolean passpointsSet = prefs.getBoolean(PASSWORD_SET, false);
 
         if(!passpointsSet){
-            Log.d(MainActivity.DEBUGTAG, "Saving Passpoints ..." + points.size());
+            Log.d(NoteActivity.DEBUGTAG, "Saving Passpoints ..." + points.size());
             savePasspoints(points);
         }
         else{
-            Log.d(MainActivity.DEBUGTAG, "Verifying Passpoints ...");
+            Log.d(NoteActivity.DEBUGTAG, "Verifying Passpoints ...");
             verifyPasspoints(points);
         }
     }

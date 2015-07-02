@@ -44,7 +44,7 @@ public class Database extends SQLiteOpenHelper {
         for(Point point: points){
             ContentValues values = new ContentValues();
 
-            Log.d(MainActivity.DEBUGTAG, "Point: " + point.x + " - " + point.y);
+            Log.d(NoteActivity.DEBUGTAG, "Point: " + point.x + " - " + point.y);
 
             values.put(COL_ID, ++i);
             values.put(COL_X, point.x);
