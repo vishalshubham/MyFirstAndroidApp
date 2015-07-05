@@ -16,9 +16,20 @@
     <string name="title_activity_note">NoteActivity</string>
     <string name="text_hint">Enter your Note here</string>
     <string name="save_note">Save</string>
-    <string name="lock">Lock</string>
+    <string name="back_button">Back</string>
     <string name="menu_passpoints_reset">Reset Passpoints</string>
     <string name="note_saved">Note successfully saved</string>
     <string name="menu_loginimage_reset">Reset Login Image</string>
     <string name="unable_to_save">Unable to save photo file</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="add_note">Add note</string>
+    <string name="note_name">note_name</string>
+    <string name="exit">Exit App</string>
+
+    <string-array name="list_options">
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+        <item>Option 4</item>
+    </string-array>
 </resources>

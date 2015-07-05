@@ -31,9 +31,10 @@ import java.util.prefs.Preferences;
 public class NoteActivity extends ActionBarActivity {
 
     public static final String DEBUGTAG = "VC";
-    public static final String TEXTFILE = "notesquirrel.txt";
     public static final String FILESAVED = "FileSaved";
     public static final String RESET_PASSPOINTS = "ResetPasspoints";
+    public static final String NOTE_PRE = "note_";
+    public static final String TXT = ".txt";
     public static final int PHOTO_TAKEN = 0;
     private File imageFile;
     @Override
@@ -42,19 +43,22 @@ public class NoteActivity extends ActionBarActivity {
         setContentView(R.layout.activity_note);
 
         addSaveButtonListner();
-        addLockButtonListner();
+        addBackButtonListner();
 
+        String noteString = getIntent().getStringExtra(ListActivity.NOTE_NAME);
+        noteString = noteString.replace(" ", "_");
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        boolean fileSaved = prefs.getBoolean(FILESAVED, false);
-
+        boolean fileSaved = prefs.getBoolean(FILESAVED + noteString, false);
+        Log.d(DEBUGTAG, "File Saved: " + fileSaved);
         if(fileSaved){
-            loadSavedFile();
+            loadSavedFile(NOTE_PRE + noteString + TXT);
         }
     }
 
-    private void loadSavedFile(){
+    private void loadSavedFile(String fileString){
         try {
-            FileInputStream fis = openFileInput(TEXTFILE);
+            Log.d(DEBUGTAG, fileString);
+            FileInputStream fis = openFileInput(fileString);
             BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(fis)));
 
             EditText editText = (EditText)findViewById(R.id.text);
@@ -66,22 +70,23 @@ public class NoteActivity extends ActionBarActivity {
             }
 
         } catch (Exception e) {
-            Log.d(DEBUGTAG, "Unable to read file");
+            Log.d(DEBUGTAG, "Unable to read file" + e);
         }
     }
 
-    private void addLockButtonListner(){
-        Button lockBtn = (Button)findViewById(R.id.lock_button);
+    private void addBackButtonListner(){
+        Button backBtn = (Button)findViewById(R.id.lock_button);
 
-        lockBtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText editText = (EditText)findViewById(R.id.text);
                 String text = editText.getText().toString();
 
                 try {
-                    Intent i = new Intent(NoteActivity.this, ImageActivity.class);
+                    Intent i = new Intent(NoteActivity.this, ListActivity.class);
                     startActivity(i);
+                    NoteActivity.this.finish();
                 } catch (Exception e) {
                     Log.d(DEBUGTAG, "Unable to lock");
                 }
@@ -99,13 +104,16 @@ public class NoteActivity extends ActionBarActivity {
                 String text = editText.getText().toString();
 
                 try {
-                    FileOutputStream fos = openFileOutput(TEXTFILE, Context.MODE_PRIVATE);
+                    String noteString = getIntent().getStringExtra(ListActivity.NOTE_NAME);
+                    noteString = noteString.replace(" ", "_");
+
+                    FileOutputStream fos = openFileOutput(NOTE_PRE + noteString + TXT, Context.MODE_PRIVATE);
                     fos.write(text.getBytes());
                     fos.close();
                     Toast.makeText(NoteActivity.this, R.string.note_saved, Toast.LENGTH_LONG).show();
                     SharedPreferences prefs = getPreferences(MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean(FILESAVED, true);
+                    editor.putBoolean(FILESAVED + noteString, true);
                     editor.commit();
                 } catch (Exception e) {
                     Log.d(DEBUGTAG, "Unable to save file");

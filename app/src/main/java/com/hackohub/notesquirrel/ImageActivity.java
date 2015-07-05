@@ -24,7 +24,7 @@ import java.util.List;
 public class ImageActivity extends ActionBarActivity implements PointCollectorListner{
 
     private static final String PASSWORD_SET = "PASSWORD_SET";
-    private static final int POINT_CLOSENESS = 40;
+    private static final int POINT_CLOSENESS = 60;
     private PointCollector pointCollector = new PointCollector();
     private Database db = new Database(this);
 
@@ -148,8 +148,9 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
                 pointCollector.clear();
 
                 if(pass){
-                    Intent i = new Intent(ImageActivity.this, NoteActivity.class);
+                    Intent i = new Intent(ImageActivity.this, ListActivity.class);
                     startActivity(i);
+                    ImageActivity.this.finish();
                 }
                 else{
                     Toast.makeText(ImageActivity.this, "Access Denied", Toast.LENGTH_LONG).show();
