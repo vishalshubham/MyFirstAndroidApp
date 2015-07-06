@@ -13,18 +13,17 @@
     <string name="password_image">Password Image</string>
     <string name="storing_data">Storing Data ...</string>
     <string name="checking_passpoints">Checking Passpoints ...</string>
-    <string name="title_activity_note">NoteActivity</string>
-    <string name="text_hint">Enter your Note here</string>
+    <string name="title_activity_note">Enter Note</string>
+    <string name="text_hint">Enter your Note below</string>
     <string name="save_note">Save</string>
     <string name="back_button">Back</string>
     <string name="menu_passpoints_reset">Reset Passpoints</string>
     <string name="note_saved">Note successfully saved</string>
     <string name="menu_loginimage_reset">Reset Login Image</string>
     <string name="unable_to_save">Unable to save photo file</string>
-    <string name="title_activity_list">ListActivity</string>
-    <string name="add_note">Add note</string>
-    <string name="note_name">note_name</string>
-    <string name="exit">Exit App</string>
+    <string name="title_activity_list">All Notes </string>
+    <string name="add_note">Add</string>
+    <string name="exit">Exit</string>
 
     <string-array name="list_options">
         <item>Option 1</item>
