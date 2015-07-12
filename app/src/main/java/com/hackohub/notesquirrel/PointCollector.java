@@ -29,7 +29,6 @@ public class PointCollector implements View.OnTouchListener{
 
         String message = String.format("Coordinates: (%d, %d)", x, y);
         Log.d(NoteActivity.DEBUGTAG, message);
-        //Toast.makeText(ImageActivity.this, message, Toast.LENGTH_LONG).show();
 
         points.add(new Point(x, y));
         Log.d(NoteActivity.DEBUGTAG, "Point added" + points.size());

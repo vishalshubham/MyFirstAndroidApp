@@ -148,6 +148,7 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
                 pointCollector.clear();
 
                 if(pass){
+                    Log.d(NoteActivity.DEBUGTAG, "Verifying Passpoints");
                     Intent i = new Intent(ImageActivity.this, ListActivity.class);
                     startActivity(i);
                     ImageActivity.this.finish();

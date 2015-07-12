@@ -22,6 +22,7 @@ public class Database extends SQLiteOpenHelper {
     private static final String COL_Y = "Y";
     private static final String NOTE_TABLE = "DB_NOTE_TABLE";
     private static final String COL_NOTE = "NOTE";
+    private static final String COL_DATE = "DATE";
 
     public Database(Context context) {
         super(context, "note.db", null, 1);
@@ -31,7 +32,7 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = String.format("create table %s (%s INTEGER PRIMARY KEY, %s INTEGER NOT NULL, %s INTEGER NOT NULL)", POINT_TABLE, COL_ID, COL_X, COL_Y);
         db.execSQL(sql);
-        sql = String.format("create table %s (%s INTEGER PRIMARY KEY, %s VARCHAR NOT NULL)", NOTE_TABLE, COL_ID, COL_NOTE);
+        sql = String.format("create table %s (%s INTEGER PRIMARY KEY, %s VARCHAR NOT NULL, %s VARCHAR NOT NULL)", NOTE_TABLE, COL_ID, COL_NOTE, COL_DATE);
         db.execSQL(sql);
     }
 
@@ -59,6 +60,21 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void storeNote(NoteData noteData){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Log.d(NoteActivity.DEBUGTAG, "Id: " + noteData.getNote_id() + " - Note: " + noteData.getNote_name() + " - Date: " + noteData.getNote_date());
+
+        values.put(COL_ID, noteData.getNote_id());
+        values.put(COL_NOTE, noteData.getNote_name());
+        values.put(COL_DATE, noteData.getNote_date());
+        db.insert(NOTE_TABLE, null, values);
+
+        db.close();
+    }
+
     public List<Point> getPoints(){
         List<Point> points = new ArrayList<Point>();
 
@@ -79,8 +95,8 @@ public class Database extends SQLiteOpenHelper {
         return points;
     }
 
-    public List<String> getNotes(){
-        List<String> notes = new ArrayList<String>();
+    public List<NoteData> getNotes(){
+        List<NoteData> notes = new ArrayList<NoteData>();
 
         SQLiteDatabase db = getWritableDatabase();
 
@@ -89,12 +105,29 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
 
         while(cursor.moveToNext()){
+            NoteData noteData = new NoteData();
             String note_name = cursor.getString(1);
-
-            notes.add(note_name);
+            String note_date = cursor.getString(2);
+            noteData.setNote_name(note_name);
+            noteData.setNote_date(note_date);
+            notes.add(noteData);
         }
 
         db.close();
         return notes;
+    }
+
+    public int getTotalNotes(){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = String.format("select count(*) from %s", NOTE_TABLE);
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        int total_notes = cursor.getInt(0);
+
+        db.close();
+        return total_notes;
     }
 }

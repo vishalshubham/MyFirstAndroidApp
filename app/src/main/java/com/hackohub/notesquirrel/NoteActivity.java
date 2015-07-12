@@ -67,14 +67,17 @@ public class NoteActivity extends ActionBarActivity {
                 SharedPreferences prefs = getPreferences(MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 Log.d(NoteActivity.DEBUGTAG, "----------" + position);
+                int list_size = prefs.getInt(ListActivity.LIST_SIZE, 0)-1;
+
                 editor.remove(FILESAVED + noteString);
                 editor.remove(ListActivity.OPTION_PRE+position);
                 editor.remove(ListActivity.DATETIME_PRE+position);
-                editor.putInt(ListActivity.LIST_SIZE, prefs.getInt(ListActivity.LIST_SIZE, 0)-1);
+                editor.putInt(ListActivity.LIST_SIZE, list_size);
                 editor.commit();
                 removeSavedFile(noteString);
                 Intent i = new Intent(NoteActivity.this, ListActivity.class);
                 startActivity(i);
+                NoteActivity.this.finish();
                 Toast.makeText(NoteActivity.this, "Note deleted", Toast.LENGTH_LONG).show();
                 Log.d(DEBUGTAG, "present : " + prefs.getString(ListActivity.OPTION_PRE + position, null));
                 Log.d(DEBUGTAG, "present : " + prefs.getString(ListActivity.DATETIME_PRE + position, null));

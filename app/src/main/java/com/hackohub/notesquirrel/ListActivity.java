@@ -76,21 +76,27 @@ public class ListActivity extends ActionBarActivity {
                         if (input.getText().toString().equals("")) {
                             Toast.makeText(ListActivity.this, "You need to enter a name for the note", Toast.LENGTH_LONG).show();
                         } else {
-                            SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
-                            int count = prefs.getInt(LIST_SIZE, 0);
-                            count++;
-                            editor.putString(OPTION_PRE + (count), input.getText().toString());
-                            String dateString = getFormattedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()));
-                            editor.putString(DATETIME_PRE + (count), dateString);
-                            editor.putInt(LIST_SIZE, count);
-                            editor.commit();
-                            Log.d(NoteActivity.DEBUGTAG, LIST_SIZE + count);
-                            Log.d(NoteActivity.DEBUGTAG, input.getText().toString() + dateString);
+                            saveNote();
                             Intent i = new Intent(ListActivity.this, ListActivity.class);
                             startActivity(i);
                             ListActivity.this.finish();
                         }
+                    }
+
+                    private void saveNote(){
+                        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        int count = prefs.getInt(LIST_SIZE, 0);
+                        count++;
+
+                        String dateString = getFormattedDate(new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()));
+                        editor.putString(OPTION_PRE + (count), input.getText().toString());
+                        editor.putString(DATETIME_PRE + (count), dateString);
+                        editor.putInt(LIST_SIZE, count);
+                        editor.commit();
+
+                        Log.d(NoteActivity.DEBUGTAG, LIST_SIZE + count);
+                        Log.d(NoteActivity.DEBUGTAG, input.getText().toString() + dateString);
                     }
 
                     private String getFormattedDate(String dateString) {
@@ -120,12 +126,12 @@ public class ListActivity extends ActionBarActivity {
         Log.d(NoteActivity.DEBUGTAG, "Inside setListListner");
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        int size = prefs.getInt("list_size", -1);
+        int size = prefs.getInt(LIST_SIZE, -1);
 
         ArrayList<Message> messages = new ArrayList<Message>();
         if(size == -1){
             Log.d(NoteActivity.DEBUGTAG, "Size: " + size);
-            editor.putInt("list_size", 0);
+            editor.putInt(LIST_SIZE, 0);
             editor.commit();
         }
         else{
