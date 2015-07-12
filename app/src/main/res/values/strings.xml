@@ -24,6 +24,7 @@
     <string name="title_activity_list">All Notes </string>
     <string name="add_note">Add</string>
     <string name="exit">Exit</string>
+    <string name="delete_button">Delete</string>
 
     <string-array name="list_options">
         <item>Option 1</item>

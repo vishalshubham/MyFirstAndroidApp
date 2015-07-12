@@ -33,6 +33,7 @@ public class ListActivity extends ActionBarActivity {
     public static final int PHOTO_TAKEN = 0;
     public static final String OPTION_PRE = "option_";
     public static final String DATETIME_PRE = "datetime_";
+    public static final String COUNT = "count";
     public static final String LIST_SIZE = "list_size";
     private File imageFile;
 
@@ -155,7 +156,9 @@ public class ListActivity extends ActionBarActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-                    Intent i = new Intent(ListActivity.this, NoteActivity.class).putExtra(NOTE_NAME, messageAdapter.getTitle(position));
+                    Intent i = new Intent(ListActivity.this, NoteActivity.class);
+                    i.putExtra(NOTE_NAME, messageAdapter.getTitle(position));
+                    i.putExtra(COUNT, Integer.toString(position+1));
                     startActivity(i);
                     ListActivity.this.finish();
                     Log.d(NoteActivity.DEBUGTAG, "Position: " + position + "; Value: " + messageAdapter.getTitle(position) + ";");

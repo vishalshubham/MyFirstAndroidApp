@@ -16,10 +16,12 @@ import java.util.List;
  */
 public class Database extends SQLiteOpenHelper {
 
-    private static final String POINT_TABLE = "POINTS";
+    private static final String POINT_TABLE = "DB_POINTS";
     private static final String COL_ID = "ID";
     private static final String COL_X = "X";
     private static final String COL_Y = "Y";
+    private static final String NOTE_TABLE = "DB_NOTE_TABLE";
+    private static final String COL_NOTE = "NOTE";
 
     public Database(Context context) {
         super(context, "note.db", null, 1);
@@ -28,6 +30,8 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = String.format("create table %s (%s INTEGER PRIMARY KEY, %s INTEGER NOT NULL, %s INTEGER NOT NULL)", POINT_TABLE, COL_ID, COL_X, COL_Y);
+        db.execSQL(sql);
+        sql = String.format("create table %s (%s INTEGER PRIMARY KEY, %s VARCHAR NOT NULL)", NOTE_TABLE, COL_ID, COL_NOTE);
         db.execSQL(sql);
     }
 
@@ -73,5 +77,24 @@ public class Database extends SQLiteOpenHelper {
 
         db.close();
         return points;
+    }
+
+    public List<String> getNotes(){
+        List<String> notes = new ArrayList<String>();
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = String.format("select * from %s order by %s", NOTE_TABLE, COL_ID);
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        while(cursor.moveToNext()){
+            String note_name = cursor.getString(1);
+
+            notes.add(note_name);
+        }
+
+        db.close();
+        return notes;
     }
 }

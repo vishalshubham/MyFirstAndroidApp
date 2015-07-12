@@ -46,5 +46,13 @@
             android:text="@string/back_button"
             android:background="@drawable/button"
             android:textColor="#fff"/>
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_button"
+            android:background="@drawable/button"
+            android:textColor="#fff"/>
     </LinearLayout>
 </LinearLayout>

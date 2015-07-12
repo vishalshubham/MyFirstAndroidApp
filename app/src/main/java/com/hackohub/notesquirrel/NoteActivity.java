@@ -46,13 +46,49 @@ public class NoteActivity extends ActionBarActivity {
         addBackButtonListner();
 
         String noteString = getIntent().getStringExtra(ListActivity.NOTE_NAME);
+        String position = getIntent().getStringExtra(ListActivity.COUNT);
+        Log.d(DEBUGTAG, "noteString: " + noteString + " : position: " + position);
         noteString = noteString.replace(" ", "_");
+        addDeleteButtonListner(noteString, position);
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         boolean fileSaved = prefs.getBoolean(FILESAVED + noteString, false);
         Log.d(DEBUGTAG, "File Saved: " + fileSaved);
         if(fileSaved){
             loadSavedFile(NOTE_PRE + noteString + TXT);
         }
+    }
+
+    private void addDeleteButtonListner(final String noteString, final String position) {
+        Button deleteBtn = (Button)findViewById(R.id.delete_button);
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                Log.d(NoteActivity.DEBUGTAG, "----------" + position);
+                editor.remove(FILESAVED + noteString);
+                editor.remove(ListActivity.OPTION_PRE+position);
+                editor.remove(ListActivity.DATETIME_PRE+position);
+                editor.putInt(ListActivity.LIST_SIZE, prefs.getInt(ListActivity.LIST_SIZE, 0)-1);
+                editor.commit();
+                removeSavedFile(noteString);
+                Intent i = new Intent(NoteActivity.this, ListActivity.class);
+                startActivity(i);
+                Toast.makeText(NoteActivity.this, "Note deleted", Toast.LENGTH_LONG).show();
+                Log.d(DEBUGTAG, "present : " + prefs.getString(ListActivity.OPTION_PRE + position, null));
+                Log.d(DEBUGTAG, "present : " + prefs.getString(ListActivity.DATETIME_PRE + position, null));
+            }
+
+            private void removeSavedFile(String noteString) {
+                try {
+                    deleteFile(NOTE_PRE + noteString + TXT);
+                    Log.d(NoteActivity.DEBUGTAG, NOTE_PRE + noteString + TXT + "File deleted");
+                } catch (Exception e) {
+                    Log.d(NoteActivity.DEBUGTAG, "Exception in opening file: "+e);
+                }
+            }
+        });
     }
 
     private void loadSavedFile(String fileString){
