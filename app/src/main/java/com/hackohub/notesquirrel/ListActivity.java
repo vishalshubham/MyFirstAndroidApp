@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -219,10 +220,20 @@ public class ListActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
         if(requestCode==BROWSE_GALLERY_REQUEST){
-            Toast.makeText(this, "Gallary Result: " + data.getData(), Toast.LENGTH_LONG).show();
+            String[] columns = {MediaStore.Images.Media.DATA};
+
+            Uri imageUri = intent.getData();
+            Cursor cursor = getContentResolver().query(imageUri, columns, null, null, null);
+
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(columns[0]);
+            String imagePath = cursor.getString(columnIndex);
+            cursor.close();
+            image = Uri.parse(imagePath);
+            Toast.makeText(this, "Gallary Result: " + intent.getData(), Toast.LENGTH_LONG).show();
         }
 
         if(image == null){

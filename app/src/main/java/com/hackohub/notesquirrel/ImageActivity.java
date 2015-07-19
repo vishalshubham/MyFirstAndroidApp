@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import java.util.List;
 public class ImageActivity extends ActionBarActivity implements PointCollectorListner{
 
     private static final String PASSWORD_SET = "PASSWORD_SET";
+    private final static String CURRENT_IMAGE = "CURRENT_IMAGE";
     private static final int POINT_CLOSENESS = 60;
     private PointCollector pointCollector = new PointCollector();
     private Database db = new Database(this);
@@ -35,8 +38,10 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
 
         addImageTouchListener();
 
+        String newImage = null;
         Bundle extras = getIntent().getExtras();
         if(extras!=null){
+            newImage = extras.getString(NoteActivity.RESET_IMAGE);
             Boolean resetPasspoints = extras.getBoolean(NoteActivity.RESET_PASSPOINTS);
             if(resetPasspoints){
                 SharedPreferences prefs = getPreferences(MODE_PRIVATE);
@@ -46,14 +51,38 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
             }
         }
 
+
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         Boolean passpointsSet = prefs.getBoolean(PASSWORD_SET, false);
+
+        if(newImage==null){
+            newImage = prefs.getString(CURRENT_IMAGE, null);
+        }
+        else{
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(CURRENT_IMAGE, newImage);
+            editor.commit();
+        }
+
+        setImage(newImage);
 
         if(!passpointsSet){
             showSetPasspointsPrompt();
         }
 
         pointCollector.setListner(this);
+    }
+
+    public void setImage(String path){
+        ImageView imageView = (ImageView)findViewById(R.id.touch_image);
+
+        if(path==null){
+            Drawable image = getResources().getDrawable(R.drawable.image);
+            imageView.setImageDrawable(image);
+        }
+        else {
+            imageView.setImageURI(Uri.parse(path));
+        }
     }
 
     public void showSetPasspointsPrompt(){
