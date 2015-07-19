@@ -30,12 +30,14 @@ import java.util.Date;
 public class ListActivity extends ActionBarActivity {
 
     public static final String NOTE_NAME = "note_name";
-    public static final int PHOTO_TAKEN = 0;
     public static final String OPTION_PRE = "option_";
     public static final String DATETIME_PRE = "datetime_";
     public static final String COUNT = "count";
     public static final String LIST_SIZE = "list_size";
     private File imageFile;
+    private Uri image;
+    public static final int PHOTO_TAKEN_REQUEST = 0;
+    public static final int BROWSE_GALLERY_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class ListActivity extends ActionBarActivity {
                         }
                     }
 
-                    private void saveNote(){
+                    private void saveNote() {
                         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         int count = prefs.getInt(LIST_SIZE, 0);
@@ -173,6 +175,75 @@ public class ListActivity extends ActionBarActivity {
         }
     }
 
+    public void replaceImage(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View v = getLayoutInflater().inflate(R.layout.replace_image_layout, null);
+        builder.setTitle(R.string.replace_lock_image);
+        builder.setIcon(R.drawable.gallary);
+        builder.setView(v);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Button btnTakePhoto = (Button)dialog.findViewById(R.id.take_photo_button);
+        Button btnBrowseGallery = (Button)dialog.findViewById(R.id.browse_gallery_button);
+
+        btnTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePhoto();
+            }
+        });
+
+        btnBrowseGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browseGallery();
+            }
+        });
+    }
+
+    public void browseGallery(){
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, BROWSE_GALLERY_REQUEST);
+    }
+
+    public void takePhoto(){
+        File picturesDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        imageFile = new File(picturesDirectory, "passpoints_image");
+
+        Intent i2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        image = Uri.fromFile(imageFile);
+        i2.putExtra(MediaStore.EXTRA_OUTPUT, image);
+        startActivityForResult(i2, PHOTO_TAKEN_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode==BROWSE_GALLERY_REQUEST){
+            Toast.makeText(this, "Gallary Result: " + data.getData(), Toast.LENGTH_LONG).show();
+        }
+
+        if(image == null){
+            Toast.makeText(this, R.string.unable_to_display_image, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Log.d(NoteActivity.DEBUGTAG, "Photo:" + image.getPath());
+        resetPasspoints(image);
+    }
+
+    public void resetPasspoints(Uri image){
+        Intent i = new Intent(ListActivity.this, ImageActivity.class);
+        i.putExtra(NoteActivity.RESET_PASSPOINTS, true);
+
+        if(image!=null){
+            i.putExtra(NoteActivity.RESET_IMAGE, image.getPath());
+        }
+        startActivity(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -187,17 +258,10 @@ public class ListActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.menu_passpoints_reset:
-                Intent i = new Intent(ListActivity.this, ImageActivity.class);
-                i.putExtra(NoteActivity.RESET_PASSPOINTS, true);
-                startActivity(i);
+                resetPasspoints(null);
                 return true;
             case R.id.menu_loginimage_reset:
-                File picturesDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                imageFile = new File(picturesDirectory, "passpoints_image");
-
-                Intent i2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                i2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
-                startActivityForResult(i2, PHOTO_TAKEN);
+                replaceImage();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

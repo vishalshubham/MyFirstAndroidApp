@@ -33,6 +33,7 @@ public class NoteActivity extends ActionBarActivity {
     public static final String DEBUGTAG = "VC";
     public static final String FILESAVED = "FileSaved";
     public static final String RESET_PASSPOINTS = "ResetPasspoints";
+    public static final String RESET_IMAGE = "ResetImage";
     public static final String NOTE_PRE = "note_";
     public static final String TXT = ".txt";
     public static final int PHOTO_TAKEN = 0;

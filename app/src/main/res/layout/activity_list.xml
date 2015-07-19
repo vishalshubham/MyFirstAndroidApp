@@ -3,22 +3,14 @@
     android:layout_height="match_parent"
     tools:context="com.hackohub.notesquirrel.ListActivity"
     android:orientation="vertical"
-    android:background="#000"
-    android:paddingLeft="7dp"
-    android:paddingBottom="7dp"
-    android:paddingTop="7dp"
-    android:paddingRight="7dp">
+    style="@style/activity_style">
 
     <ListView
         android:id="@+id/main_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/listview"
         android:layout_weight="1"
-        android:paddingLeft="7dp"
-        android:paddingBottom="7dp"
-        android:paddingTop="7dp"
-        android:paddingRight="7dp"
+        style="@style/activity_list_listview_style"
         />
 
     <LinearLayout
@@ -33,9 +25,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/add_note"
-            android:background="@drawable/button"
             android:paddingRight="7dp"
-            android:textColor="#fff"/>
+            style="@style/button_style"/>
 
         <Button
             android:id="@+id/exit_button"
@@ -43,8 +34,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/exit"
-            android:background="@drawable/button"
-            android:textColor="#fff"/>
+            style="@style/button_style"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:textColor="#000"
-    android:background="#fff"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    style="@style/note_style">
 
     <ImageView
         android:id="@+id/list_message_icon"
@@ -24,15 +23,13 @@
             android:id="@+id/list_message_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textStyle="bold"/>
+            style="@style/note_name_style"/>
 
         <TextView
             android:id="@+id/list_message_datetime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:textStyle="italic"
+            style="@style/note_datetime_style"
             android:gravity="right"/>
 
     </LinearLayout>

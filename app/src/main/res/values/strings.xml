@@ -26,6 +26,10 @@
     <string name="exit">Exit</string>
     <string name="delete_button">Delete</string>
     <string name="creation_desc">Creation Description</string>
+    <string name="replace_lock_image">Replace Lock image</string>
+    <string name="take_photo">Take a Photo</string>
+    <string name="browse_gallary">Browse Gallery</string>
+    <string name="unable_to_display_image">Unable to Display Image</string>
 
     <string-array name="list_options">
         <item>Option 1</item>
