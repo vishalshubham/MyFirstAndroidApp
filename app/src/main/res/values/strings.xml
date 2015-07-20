@@ -19,7 +19,7 @@
     <string name="back_button">Back</string>
     <string name="menu_passpoints_reset">Reset Passpoints</string>
     <string name="note_saved">Note successfully saved</string>
-    <string name="menu_loginimage_reset">Reset Login Image</string>
+    <string name="menu_loginimage_reset">Change Login Image</string>
     <string name="unable_to_save">Unable to save photo file</string>
     <string name="title_activity_list">All Notes </string>
     <string name="add_note">Add</string>

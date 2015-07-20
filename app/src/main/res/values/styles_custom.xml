@@ -13,6 +13,7 @@
     <style name="button_style">
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">#FFF</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
     <style name="edittext_style">
