@@ -140,26 +140,36 @@ public class NoteActivity extends ActionBarActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = (EditText)findViewById(R.id.text);
-                String text = editText.getText().toString();
-
-                try {
-                    String noteString = getIntent().getStringExtra(ListActivity.NOTE_NAME);
-                    noteString = noteString.replace(" ", "_");
-
-                    FileOutputStream fos = openFileOutput(NOTE_PRE + noteString + TXT, Context.MODE_PRIVATE);
-                    fos.write(text.getBytes());
-                    fos.close();
-                    Toast.makeText(NoteActivity.this, R.string.note_saved, Toast.LENGTH_LONG).show();
-                    SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean(FILESAVED + noteString, true);
-                    editor.commit();
-                } catch (Exception e) {
-                    Log.d(DEBUGTAG, "Unable to save file");
-                }
+                saveText();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveText();
+    }
+
+    public void saveText(){
+        EditText editText = (EditText)findViewById(R.id.text);
+        String text = editText.getText().toString();
+
+        try {
+            String noteString = getIntent().getStringExtra(ListActivity.NOTE_NAME);
+            noteString = noteString.replace(" ", "_");
+
+            FileOutputStream fos = openFileOutput(NOTE_PRE + noteString + TXT, Context.MODE_PRIVATE);
+            fos.write(text.getBytes());
+            fos.close();
+            Toast.makeText(NoteActivity.this, R.string.note_saved, Toast.LENGTH_LONG).show();
+            SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(FILESAVED + noteString, true);
+            editor.commit();
+        } catch (Exception e) {
+            Log.d(DEBUGTAG, "Unable to save file");
+        }
     }
 
     @Override
