@@ -1,11 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!-- API 14 theme customizations can go here. -->
         <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
