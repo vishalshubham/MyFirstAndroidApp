@@ -85,7 +85,7 @@ public class ImageActivity extends ActionBarActivity implements PointCollectorLi
         }
     }
 
-    public void showSetPasspointsPrompt(){
+    public void showSetPasspointsPrompt() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
