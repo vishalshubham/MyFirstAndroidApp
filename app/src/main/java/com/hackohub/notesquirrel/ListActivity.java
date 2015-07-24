@@ -156,7 +156,7 @@ public class ListActivity extends ActionBarActivity {
         }
         else{
             Log.d(NoteActivity.DEBUGTAG, "size " + messages.size());
-            //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, values);
+            //ArrayAdapter<String> arrayAdapter =  new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, values);
 
             ListView listView = (ListView)findViewById(R.id.main_list);
 
