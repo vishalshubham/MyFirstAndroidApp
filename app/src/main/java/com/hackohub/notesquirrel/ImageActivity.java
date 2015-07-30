@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.List;
+import java.util.List; 
 
 
 public class ImageActivity extends ActionBarActivity implements PointCollectorListner{
